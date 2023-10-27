@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main>
+        <div class="side_nav">
+
+        </div>
+        <div class="nav_bar">
+            <form action="" id="search_form">
+                <div class="search_bar">
+                    <input type="text" placeholder="search" id="term">
+                </div>
+                <div class="search_btn">
+                    <button type="submit" class="btn_bg">Search</button>
+                </div>
+            </form>
+            <div class="mode">
+                <h5 id="mode_name" class="mode_name"> Light Mode</h5>
+                <input type="checkbox" id="mode" onchange="toggleTheme()" checked>
+            </div>
+
+        </div>
+        <div class="model" id="model">
+            <div class="modal_content">
+                <h3>Do you want to delete ?</h3>
+                <div class="btn_model">
+                    <button class="bg_succes" onclick="hideModel()" id="cancle_btn">Cancle</button>
+                    <button class="bg_danger" onclick="deleteCard()" id="delete_btn">Delete</button>
+                </div>
+            </div>
+        </div>
+        <div class="model" id="info_modal">
+            <div class="modal_content" id="modal_content">
+                <div class="model_close_btn" onclick="closeModel()">
+                    ❌
+                </div>
+                <div class="model_title">
+                    <h3 id="modelTitle" >Super Hero Info</h3>
+                </div>
+                <div class="model_body">
+                    <div class="model_image">
+                        <img id="modelImg"
+                            src="https://rukminim2.flixcart.com/image/850/1000/k30h8y80/poster/f/z/w/medium-shaktiman-tv-show-poster-shaktiman-original-imafm8ru6qkz8x5z.jpeg?q=20"
+                            alt="">
+                    </div>
+                    <div class="model_info">
+                        <h3 id="modelName">hero</h3>
+                        <span id="modelSubTitle">hsbdf</span>
+                        <div class="model_des">
+                            <p id="modelDesc">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magni inventore
+                                laboriosam,
+                                commodi magnam laudantium, fugit molestias optio totam, harum odio similique repudiandae
+                                maxime dolorem ipsam hic animi sint nam dolores.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="form_container model" id="form_model">
+            <form action="" id="form">
+                <div class="close_form_btn" onclick="closeMainForm()">
+                    <span>❌</span>
+                </div>
+                <div class="form_inputs">
+                    <input type="text" id="hero_name" placeholder="Hero Name">
+                    <input type="text" id="name" placeholder="Real name">
+                    <input type="text" id="image" placeholder="Image path">
+                    <textarea name="" id="des" placeholder="Description"></textarea>
+                </div>
+                <button type="submit" id="main_form_btn" class="btn main_form_btn">Submit</button>
+            </form>
+        </div>
+        <div class="search_tearm" id="search_tearm">
+            <span>Search:</span>
+            <span></span>
+            <button  onclick="clearSearch()">Clear</button>
+        </div>
+
+        <div class="add_card_btn" onclick="addNote()">
+            <span>➕</span>
+            <button class="btn">Add note</button>
+        </div>
+        <div class="card_container" id="wrapper">
+
+        </div>
+
+        <div class="list">
+            <h3>My favorite</h3>
+            <div class="card_container" id="favorite_list">
+            </div>
+        </div>
+      
+    </main>
+    <script>
+        let superHeroes = [];
+        document.addEventListener('DOMContentLoaded', function () {
+            const storedHeroes = JSON.parse(localStorage.getItem('superHeroes'));
+            if (storedHeroes) {
+                superHeroes = storedHeroes.reverse();
+                getCard(superHeroes);
+                getFavorite();
+               
+            }
+        });
+
+        function saveToLocalStorage() {
+            localStorage.setItem('superHeroes', JSON.stringify(superHeroes));
+        }
+
+        // var search_form = document.getElementById('search_form');
+        var form = document.getElementById('form');
+        var mode_form = document.getElementById('mode_form');
+        var wrapper = document.getElementById('wrapper');
+        var favorite = document.getElementById('favorite_list');
+        var mode = document.getElementById("mode")
+        var cardModel = document.getElementById("info_modal")
+        var search_tearm = document.getElementById("search_tearm");
+        var form_model = document.getElementById("form_model");
+        var main_form_btn = document.getElementById("main_form_btn")
+
+        var draft = [];
+
+        search_form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            var searchTerm = document.getElementById('term').value;
+            const termIncluded = superHeroes.filter(hero => hero.heroName.toLowerCase() === searchTerm.toLowerCase())
+            search_tearm.style.display = 'block'
+            search_tearm.children[1].innerText = `"${searchTerm}"`
+
+            getCard(termIncluded)
+        });
+        function clearSearch() {
+            search_form.reset();
+            search_tearm.style.display = 'none';
+            getCard(superHeroes)
+
+        }
+        function addNote() {
+            form_model.style.display = "grid";
+        }
+        function closeMainForm(){
+            form_model.style.display = "none";
+            main_form_btn.innerHTML = "Sbmit";
+            form.reset()
+
+        }
+        function toggleTheme() {
+            var mode_name = document.getElementById("mode_name")
+            if (mode.checked) {
+                mode_name.innerText = `Light mode`
+                localStorage.setItem('theme', '')
+                document.documentElement.setAttribute('data-theme', '')
+            } else {
+                mode_name.innerText = `Dark mode`
+                document.documentElement.setAttribute('data-theme', 'dark')
+                localStorage.setItem('theme', 'dark')
+            }
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            var heroName = document.getElementById('hero_name').value
+            var realName = document.getElementById('name').value
+            var img = document.getElementById('image').value
+            var description = document.getElementById('des').value
+            
+            var newId = new Date().getTime()
+            if (heroName === '' || realName === '' || img === '' || description === '') {
+                console.error('All fields are required');
+            }
+            else {
+                superHeroes.push({
+                    id: newId,
+                    heroName,
+                    realName,
+                    img,
+                    description,
+                    selectors,
+                    isFavorite: false
+                })
+                form.reset();
+                getCard(superHeroes);
+                getFavorite();
+                saveToLocalStorage();
+                main_form_btn.innerHTML = "Note has added ✅";
+                setTimeout(closeMainForm,2000)
+            }
+        })
+
+        function openCardModel(elm) {
+            var modelImg = document.getElementById("modelImg")
+            var modelTitle = document.getElementById("modelTitle")
+            var modelDesc = document.getElementById("modelDesc")
+            var modelSubTitle = document.getElementById("modelSubTitle")
+            var modelName = document.getElementById("modelName")
+            modelImg.setAttribute('src', elm.img);
+            modelTitle.innerText = `${elm.heroName} information`;
+            modelDesc.innerText = elm.description;
+            modelSubTitle.innerText = elm.realName;
+            modelName.innerText = elm.heroName;
+            cardModel.style.display = 'grid';
+            console.log('element', elm);
+        }
+        function getCard(arr) {
+            wrapper.innerHTML = '';
+            const sortedHeroes = arr.sort((a, b) => b.id - a.id)
+            sortedHeroes.forEach((elm) => {
+                var newCard = document.createElement('div');
+                newCard.className = 'card';
+                newCard.onclick = function () {
+                    openCardModel(elm)
+                }
+                newCard.innerHTML = `
+            <div class="image_section">
+                <img src="${elm.img}" alt="${elm.heroName}">
+            <button class="favorite-btn" onclick="toggleFavorite(${elm.id})">${elm.isFavorite ? '🧡' : '🤍'}</button>
+            <button class="delete-btn" onclick="deleteById(${elm.id})">❌</button>
+
+            </div>
+            <div class="info">
+                <div class="title">
+                    <h3>${elm.heroName}</h3>
+                </div>
+                <div class="name">
+                    <span>${elm.realName}</span>
+                </div>
+                <div class="des">
+                    <p>${elm.description}</p>
+                </div>
+
+            </div>
+        `;
+                wrapper.appendChild(newCard)
+            })
+        }
+        function toggleFavorite(heroId) {
+            event.stopPropagation()
+            const heroIndex = superHeroes.findIndex(hero => hero.id === heroId);
+
+            if (heroIndex !== -1) {
+                superHeroes[heroIndex].isFavorite = !superHeroes[heroIndex].isFavorite;
+                getCard(superHeroes);
+                getFavorite();
+                saveToLocalStorage();
+
+            }
+        }
+        function getFavorite() {
+            favorite.innerHTML = '';
+            const filteredList = superHeroes.filter(elm => elm.isFavorite)
+            filteredList.forEach((elm) => {
+                var newCard = document.createElement('div');
+                newCard.className = 'card';
+                newCard.innerHTML = `
+            <div class="image_section">
+                <img src="${elm.img}" alt="">
+            <button class="favorite-btn" onclick="toggleFavorite(${elm.id})">${elm.isFavorite ? '🧡' : '🤍'}</button>
+            </div>
+            <div class="info">
+                <div class="title">
+                    <h2>${elm.heroName}</h2>
+                </div>
+                <div class="name">
+                    <span>${elm.realName}</span>
+                </div>
+                <div class="des">
+                    <p>${elm.description}</p>
+                </div>
+            </div>
+        `;
+                favorite.appendChild(newCard)
+            })
+        }
+
+        let tempId = null;
+
+        function deleteById(id) {
+            event.stopPropagation()
+            if (id) {
+                tempId = id;
+                model.style.display = "grid";
+            }
+        }
+        function deleteCard() {
+            
+            const heroIndex = superHeroes.findIndex((hero) => hero.id === tempId);
+            const draftItem = superHeroes.find((elm) => elm.id === tempId)
+            draft.push(draftItem)
+            if (heroIndex !== -1) {
+                superHeroes.splice(heroIndex, 1);
+                getCard(superHeroes);
+                getFavorite();
+                saveToLocalStorage();
+                hideModel()
+            }
+        }
+        function hideModel() {
+            model.style.display = "none";
+        }
+
+
+        function closeModel() {
+            cardModel.style.display = 'none'
+        }
+    </script>
+</body>
+
+</html>
