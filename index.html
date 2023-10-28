@@ -44,7 +44,7 @@
                     ❌
                 </div>
                 <div class="model_title">
-                    <h3 id="modelTitle" >Super Hero Info</h3>
+                    <h3 id="modelTitle">Super Hero Info</h3>
                 </div>
                 <div class="model_body">
                     <div class="model_image">
@@ -76,9 +76,9 @@
                     <input type="text" id="name" placeholder="Subtitle">
                     <input type="text" id="image" placeholder="Image path">
                     <textarea name="" id="des" placeholder="Description"></textarea>
-                </div>  
+                </div>
                 <div class="error_msg">
-                    <span id="error_msg" ></span>
+                    <span id="error_msg"></span>
                 </div>
                 <button type="submit" id="main_form_btn" class="btn main_form_btn">Submit</button>
             </form>
@@ -86,7 +86,7 @@
         <div class="search_tearm" id="search_tearm">
             <span>Search:</span>
             <span></span>
-            <button  onclick="clearSearch()">Clear</button>
+            <button onclick="clearSearch()">Clear</button>
         </div>
 
         <div class="add_card_btn" onclick="addNote()">
@@ -102,7 +102,7 @@
             <div class="card_container" id="favorite_list">
             </div>
         </div>
-      
+
     </main>
     <script>
         let superHeroes = [];
@@ -112,7 +112,7 @@
                 superHeroes = storedHeroes.reverse();
                 getCard(superHeroes);
                 getFavorite();
-               
+
             }
         });
 
@@ -153,7 +153,7 @@
         function addNote() {
             form_model.style.display = "grid";
         }
-        function closeMainForm(){
+        function closeMainForm() {
             error_msg.innerText = ""
             form_model.style.display = "none";
             main_form_btn.innerHTML = "Sbmit";
@@ -177,9 +177,9 @@
             var img = document.getElementById('image').value
             var description = document.getElementById('des').value
 
-            
+
             var newId = new Date().getTime()
-            if (heroName === '' || realName === '' || img === '' || description === '') {
+            if (heroName === '' || realName === '' || description === '') {
                 error_msg.innerText = "All fields are required"
             }
             else {
@@ -197,7 +197,7 @@
                 getFavorite();
                 saveToLocalStorage();
                 main_form_btn.innerHTML = "Note has added ✅";
-                setTimeout(closeMainForm,2000)
+                setTimeout(closeMainForm, 2000)
             }
         })
 
@@ -225,24 +225,38 @@
                     openCardModel(elm)
                 }
                 newCard.innerHTML = `
-            <div class="image_section">
-                <img src="${elm.img}" alt="${elm.heroName}">
-            <button class="favorite-btn" onclick="toggleFavorite(${elm.id})">${elm.isFavorite ? '🧡' : '🤍'}</button>
-            <button class="delete-btn" onclick="deleteById(${elm.id})">❌</button>
-
-            </div>
-            <div class="info">
-                <div class="title">
-                    <h3>${elm.heroName}</h3>
+                ${elm.img ? 
+                `<div class="image_section">
+                    <img src="${elm.img}" alt="${elm.heroName}">
+                    <button class="favorite-btn" onclick="toggleFavorite(${elm.id})">${elm.isFavorite ? '🧡' : '🤍'}</button>
+                    <button class="delete-btn" onclick="deleteById(${elm.id})">❌</button>
                 </div>
-                <div class="name">
-                    <span>${elm.realName}</span>
-                </div>
-                <div class="des">
-                    <p>${elm.description}</p>
-                </div>
-
-            </div>
+                <div class="info">
+                    <div class="title">
+                        <h3>${elm.heroName}</h3>
+                    </div>
+                    <div class="name">
+                        <span>${elm.realName}</span>
+                    </div>
+                    <div class="des">
+                        <p>${elm.description}</p>
+                    </div>
+                </div>` 
+                     : 
+                `<div class="info">
+                    <button class="favorite-btn" onclick="toggleFavorite(${elm.id})">${elm.isFavorite ? '🧡' : '🤍'}</button>
+                    <button class="delete-btn" onclick="deleteById(${elm.id})">❌</button>
+                    <div class="title">
+                        <h3>${elm.heroName}</h3>
+                    </div>
+                    <div class="name">
+                        <span>${elm.realName}</span>
+                    </div>
+                    <div class="des">
+                        <p>${elm.description}</p>
+                    </div>
+                </div>`
+        }          
         `;
                 wrapper.appendChild(newCard)
             })
@@ -296,7 +310,7 @@
             }
         }
         function deleteCard() {
-            
+
             const heroIndex = superHeroes.findIndex((hero) => hero.id === tempId);
             const draftItem = superHeroes.find((elm) => elm.id === tempId)
             draft.push(draftItem)
@@ -314,7 +328,7 @@
 
 
         function closeModel() {
-           
+
             cardModel.style.display = 'none'
         }
     </script>
