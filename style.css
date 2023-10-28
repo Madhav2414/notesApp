@@ -42,6 +42,10 @@ main {
     padding: 150px 25px;
 }
 
+#error_msg {
+    color: rgb(233, 52, 52);
+}
+
 .search_tearm span {
     color: var(--colour);
     font-size: 18px;
@@ -58,9 +62,11 @@ main {
     width: fit-content;
     cursor: pointer;
 }
-.add_card_btn:hover{
+
+.add_card_btn:hover {
     background-color: rgb(0, 163, 73);
 }
+
 .btn {
     background: none;
     cursor: pointer;
@@ -107,7 +113,8 @@ main {
     padding: 50px;
     position: relative;
 }
-.close_form_btn{
+
+.close_form_btn {
     position: absolute;
     right: 20px;
     top: 20px;
@@ -117,6 +124,7 @@ main {
     font-size: 12px;
     cursor: pointer;
 }
+
 .form_container form .form_inputs {
     display: flex;
     flex-direction: column;
@@ -137,6 +145,7 @@ main {
     background-color: rgb(46, 156, 129);
     margin: 10px;
 }
+
 .btn_bg {
     background-color: brown !important;
 }
@@ -198,7 +207,8 @@ select option {
     cursor: pointer;
     transition: all 0.2s ease-in;
 }
-.card:hover{
+
+.card:hover {
     transform: scale(1.05);
 }
 
@@ -374,7 +384,66 @@ select option {
     cursor: pointer;
 }
 
+/* dark mode toggle */
+input[type=checkbox] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 50px;
+    height: 30px;
+    background: var(--colour);
+    display: block;
+    border-radius: 100px;
+    position: relative;
+}
+
+label:after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    background: var(--nav_color);
+    border-radius: 90px;
+    transition: 0.3s;
+    box-shadow: -1px 6px 20px 0px rgba(0, 0, 0, 0.37);
+    -webkit-box-shadow: -1px 6px 20px 0px rgba(0, 0, 0, 0.37);
+    -moz-box-shadow: -1px 6px 20px 0px rgba(0, 0, 0, 0.37);
+}
+
+input:checked+label {
+    background: var(--primary_color);
+}
+
+input:checked+label:after {
+    left: calc(100% - 5px);
+    transform: translateX(-100%);
+}
+
+label:active:after {
+    width: 30px;
+}
+
+
+#modelDesc {
+    overflow-wrap: anywhere;
+}
+
 @media screen and (max-width:450px) {
+    .model_body {
+        flex-direction: column;
+    }
+
+    .modal_content {
+        width: 95%;
+        padding: 25px;
+    }
 
     input,
     select,
@@ -400,6 +469,9 @@ select option {
     }
 
     main {
-        padding-top: 100px;
+        padding-top: 180px;
+    }
+    .add_card_btn{
+        width: 100%;
     }
 }

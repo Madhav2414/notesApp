@@ -24,8 +24,8 @@
                 </div>
             </form>
             <div class="mode">
-                <h5 id="mode_name" class="mode_name"> Light Mode</h5>
-                <input type="checkbox" id="mode" onchange="toggleTheme()" checked>
+                <!-- <h5 id="mode_name" class="mode_name"> Light Mode</h5> -->
+                <input type="checkbox" id="mode" onchange="toggleTheme()" checked /><label for="mode">Toggle</label>
             </div>
 
         </div>
@@ -76,6 +76,9 @@
                     <input type="text" id="name" placeholder="Subtitle">
                     <input type="text" id="image" placeholder="Image path">
                     <textarea name="" id="des" placeholder="Description"></textarea>
+                </div>  
+                <div class="error_msg">
+                    <span id="error_msg" ></span>
                 </div>
                 <button type="submit" id="main_form_btn" class="btn main_form_btn">Submit</button>
             </form>
@@ -127,6 +130,7 @@
         var search_tearm = document.getElementById("search_tearm");
         var form_model = document.getElementById("form_model");
         var main_form_btn = document.getElementById("main_form_btn")
+        var error_msg = document.getElementById("error_msg")
 
         var draft = [];
 
@@ -150,19 +154,17 @@
             form_model.style.display = "grid";
         }
         function closeMainForm(){
+            error_msg.innerText = ""
             form_model.style.display = "none";
             main_form_btn.innerHTML = "Sbmit";
             form.reset()
 
         }
         function toggleTheme() {
-            var mode_name = document.getElementById("mode_name")
             if (mode.checked) {
-                mode_name.innerText = `Light mode`
                 localStorage.setItem('theme', '')
                 document.documentElement.setAttribute('data-theme', '')
             } else {
-                mode_name.innerText = `Dark mode`
                 document.documentElement.setAttribute('data-theme', 'dark')
                 localStorage.setItem('theme', 'dark')
             }
@@ -174,10 +176,11 @@
             var realName = document.getElementById('name').value
             var img = document.getElementById('image').value
             var description = document.getElementById('des').value
+
             
             var newId = new Date().getTime()
             if (heroName === '' || realName === '' || img === '' || description === '') {
-                console.error('All fields are required');
+                error_msg.innerText = "All fields are required"
             }
             else {
                 superHeroes.push({
@@ -189,6 +192,7 @@
                     isFavorite: false
                 })
                 form.reset();
+                error_msg.innerText = ""
                 getCard(superHeroes);
                 getFavorite();
                 saveToLocalStorage();
@@ -310,6 +314,7 @@
 
 
         function closeModel() {
+           
             cardModel.style.display = 'none'
         }
     </script>
