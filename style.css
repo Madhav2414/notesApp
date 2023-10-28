@@ -49,6 +49,7 @@ main {
 .search_tearm span {
     color: var(--colour);
     font-size: 18px;
+   
     font-style: italic;
 }
 
@@ -138,6 +139,9 @@ main {
 .search_tearm button {
     text-decoration: underline;
     cursor: pointer;
+}
+.search_tearm {
+    margin-bottom: 20px;
 }
 
 .main_form_btn {

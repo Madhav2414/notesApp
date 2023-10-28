@@ -86,7 +86,7 @@
         <div class="search_tearm" id="search_tearm">
             <span>Search:</span>
             <span></span>
-            <button onclick="clearSearch()">Clear</button>
+            <button class="btn" onclick="clearSearch()">Clear</button>
         </div>
 
         <div class="add_card_btn" onclick="addNote()">
@@ -136,13 +136,19 @@
 
         search_form.addEventListener('submit', (e) => {
             e.preventDefault();
-
             var searchTerm = document.getElementById('term').value;
-            const termIncluded = superHeroes.filter(hero => hero.heroName.toLowerCase() === searchTerm.toLowerCase())
-            search_tearm.style.display = 'block'
-            search_tearm.children[1].innerText = `"${searchTerm}"`
+            if (searchTerm !== '') {
+                const termIncluded = superHeroes.filter(hero => hero.heroName.toLowerCase() === searchTerm.toLowerCase())
+                search_tearm.style.display = 'block'
+                search_tearm.children[1].innerText = `"${searchTerm}"`
+                if (termIncluded.length === 0) {
+                    search_tearm.children[1].innerText = `"${searchTerm}" not found`
+                }else{
+                    getCard(termIncluded)
+                }
+               
+            }
 
-            getCard(termIncluded)
         });
         function clearSearch() {
             search_form.reset();
@@ -225,8 +231,8 @@
                     openCardModel(elm)
                 }
                 newCard.innerHTML = `
-                ${elm.img ? 
-                `<div class="image_section">
+                ${elm.img ?
+                        `<div class="image_section">
                     <img src="${elm.img}" alt="${elm.heroName}">
                     <button class="favorite-btn" onclick="toggleFavorite(${elm.id})">${elm.isFavorite ? '🧡' : '🤍'}</button>
                     <button class="delete-btn" onclick="deleteById(${elm.id})">❌</button>
@@ -241,9 +247,9 @@
                     <div class="des">
                         <p>${elm.description}</p>
                     </div>
-                </div>` 
-                     : 
-                `<div class="info">
+                </div>`
+                        :
+                        `<div class="info">
                     <button class="favorite-btn" onclick="toggleFavorite(${elm.id})">${elm.isFavorite ? '🧡' : '🤍'}</button>
                     <button class="delete-btn" onclick="deleteById(${elm.id})">❌</button>
                     <div class="title">
@@ -256,7 +262,7 @@
                         <p>${elm.description}</p>
                     </div>
                 </div>`
-        }          
+                    }          
         `;
                 wrapper.appendChild(newCard)
             })
