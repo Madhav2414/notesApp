@@ -229,7 +229,13 @@ select option {
     height: 200px;
     position: relative;
 }
-
+.logo{
+    color: var(--colour);
+}
+.fixed_btn{
+    width: fit-content;
+    padding: 0 10px;
+}
 .selected_card .info {
     padding: 10px;
     position: absolute;
