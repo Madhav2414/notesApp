@@ -231,6 +231,7 @@ select option {
 }
 .logo{
     color: var(--colour);
+    margin-bottom: 15px;
 }
 .fixed_btn{
     width: fit-content;
@@ -474,13 +475,15 @@ label:active:after {
     .nav_bar form {
         flex-direction: column;
     }
-
+.nav_bar{
+    flex-direction: column;
+}
     .nav_bar form button {
         width: 100%;
     }
 
     main {
-        padding-top: 180px;
+        padding-top: 280px;
     }
     .add_card_btn{
         width: 100%;
