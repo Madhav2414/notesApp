@@ -49,7 +49,7 @@ main {
 .search_tearm span {
     color: var(--colour);
     font-size: 18px;
-   
+
     font-style: italic;
 }
 
@@ -140,6 +140,7 @@ main {
     text-decoration: underline;
     cursor: pointer;
 }
+
 .search_tearm {
     margin-bottom: 20px;
 }
@@ -210,7 +211,7 @@ select option {
     color: var(--colour);
     cursor: pointer;
     transition: all 0.2s ease-in;
-    
+
 }
 
 .card:hover {
@@ -229,14 +230,17 @@ select option {
     height: 200px;
     position: relative;
 }
-.logo{
+
+.logo {
     color: var(--colour);
     margin-bottom: 15px;
 }
-.fixed_btn{
+
+.fixed_btn {
     width: fit-content;
     padding: 0 10px;
 }
+
 .selected_card .info {
     padding: 10px;
     position: absolute;
@@ -280,6 +284,17 @@ select option {
     border: 0;
     font-size: 25px;
     cursor: pointer;
+}
+
+.note_logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mobile_nav,
+.menu_icon {
+    display: none;
 }
 
 .delete-btn {
@@ -475,17 +490,49 @@ label:active:after {
     .nav_bar form {
         flex-direction: column;
     }
-.nav_bar{
-    flex-direction: column;
-}
+
+    .nav_bar {
+        flex-direction: column;
+    }
+
     .nav_bar form button {
         width: 100%;
     }
 
     main {
-        padding-top: 280px;
+        padding-top: 230px;
     }
-    .add_card_btn{
+
+    .add_card_btn {
         width: 100%;
+    }
+
+    .menu_icon {
+        display: block;
+    }
+
+    .menu_items ul li {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        color: var(--colour);
+    }
+
+    .desktop_mode {
+        display: none;
+    }
+
+    .mobile_nav {
+        height: 100vh;
+        width: 90%;
+        display: block;
+        padding: 20px;
+        background-color: var(--card_color);
+        position: fixed;
+        top: 0;
+        right: -90%;
+        z-index: 10000;
+        overflow: hidden;
+        transition: all 0.3s ease;
     }
 }

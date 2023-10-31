@@ -9,13 +9,38 @@
 </head>
 
 <body>
-
+  <div class="mobile_nav" id="mobile_nav">
+    <div class="close_button" onclick="closeMenu()">
+        ❌
+    </div>
+    <div class="menu_items">
+        <ul>
+            <li>
+                <span id="mobile_mode">Light mode</span>
+                <div class="mode ">
+                    <input type="checkbox" class="toggle_mode" id="mode" onchange="toggleTheme()" checked /><label for="mode">Toggle</label>
+                </div>
+            </li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+  </div>
     <main>
-       
+      
         <div class="nav_bar">
-            <div class="logo ">
-                <h1>Notes App</h1>
+            <div class="note_logo">
+                <div class="logo ">
+                    <h1>Notes App</h1>
+                </div>
+                    <div class="menu_icon" onclick="openSideNav()">
+                        🍔
+                    </div>
             </div>
+           
+
+            
             <form action="" id="search_form">
                 <div class="search_bar">
                     <input type="text" placeholder="search" id="term">
@@ -24,9 +49,9 @@
                     <button type="submit" class="fixed_btn">🔎</button>
                
             </form>
-            <div class="mode">
+            <div class="mode desktop_mode">
                 <!-- <h5 id="mode_name" class="mode_name"> Light Mode</h5> -->
-                <input type="checkbox" id="mode" onchange="toggleTheme()" checked /><label for="mode">Toggle</label>
+                <input type="checkbox" class="toggle_mode" id="mode" onchange="toggleTheme()" checked /><label for="mode">Toggle</label>
             </div>
 
         </div>
@@ -126,13 +151,14 @@
         var mode_form = document.getElementById('mode_form');
         var wrapper = document.getElementById('wrapper');
         var favorite = document.getElementById('favorite_list');
-        var mode = document.getElementById("mode")
+        var mode = document.querySelector(".toggle_mode")
         var cardModel = document.getElementById("info_modal")
         var search_tearm = document.getElementById("search_tearm");
         var form_model = document.getElementById("form_model");
         var main_form_btn = document.getElementById("main_form_btn")
         var error_msg = document.getElementById("error_msg")
-
+        var mobile_nav = document.getElementById("mobile_nav")
+        var mobile_mode = document.getElementById("mobile_mode")
         var draft = [];
 
         search_form.addEventListener('submit', (e) => {
@@ -151,6 +177,13 @@
             }
 
         });
+        function closeMenu(){
+            mobile_nav.style.right = "-90%"
+        }
+        function openSideNav() {
+            mobile_nav.style.right = "0"
+
+        }
         function clearSearch() {
             search_form.reset();
             search_tearm.style.display = 'none';
@@ -169,9 +202,11 @@
         }
         function toggleTheme() {
             if (mode.checked) {
+                mobile_mode.innerText =`Light Mode`
                 localStorage.setItem('theme', '')
                 document.documentElement.setAttribute('data-theme', '')
             } else {
+                mobile_mode.innerText =`Dark mode`
                 document.documentElement.setAttribute('data-theme', 'dark')
                 localStorage.setItem('theme', 'dark')
             }
