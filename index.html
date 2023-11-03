@@ -324,7 +324,7 @@
 
             const filteredList = superHeroes.filter(elm => elm.isFavorite)
             myFavorite.style.display = 'none'
-            if(filteredList.length > 0){
+            if(filteredList && filteredList.length > 0){
                 myFavorite.style.display = 'block'
             }
             filteredList.forEach((elm) => {
