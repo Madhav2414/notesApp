@@ -9,51 +9,51 @@
 </head>
 
 <body>
-    <div class="mobile_nav" id="mobile_nav">
-        <div class="close_button" onclick="closeMenu()">
-            ❌
-        </div>
-        <div class="menu_items">
-            <ul>
-                <li>
-                    <span id="mobile_mode">Light mode</span>
-                    <div class="mode ">
-                        <input type="checkbox" class="toggle_mode" id="mode" onchange="toggleTheme()" checked /><label
-                            for="mode">Toggle</label>
-                    </div>
-                </li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </div>
+  <div class="mobile_nav" id="mobile_nav">
+    <div class="close_button" onclick="closeMenu()">
+        ❌
     </div>
+    <div class="menu_items">
+        <ul>
+            <li>
+                <span id="mobile_mode">Light mode</span>
+                <div class="mode ">
+                    <input type="checkbox" class="toggle_mode" id="mode" onchange="toggleTheme()" checked /><label for="mode">Toggle</label>
+                </div>
+            </li>
+            <li>
+                <span class="delete_items" onclick="deletedItems()">Delete Items</span>
+            </li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+  </div>
     <main>
-
+      
         <div class="nav_bar">
             <div class="note_logo">
                 <div class="logo ">
                     <h1>Notes App</h1>
                 </div>
-                <div class="menu_icon" onclick="openSideNav()">
-                    🍔
-                </div>
+                    <div class="menu_icon" onclick="openSideNav()">
+                        🍔
+                    </div>
             </div>
+           
 
-
-
+            
             <form action="" id="search_form">
                 <div class="search_bar">
                     <input type="text" placeholder="search" id="term">
                 </div>
-
-                <button type="submit" class="fixed_btn">🔎</button>
-
+                
+                    <button type="submit" class="fixed_btn">🔎</button>
+               
             </form>
             <div class="mode desktop_mode">
                 <!-- <h5 id="mode_name" class="mode_name"> Light Mode</h5> -->
-                <input type="checkbox" class="toggle_mode" id="mode" onchange="toggleTheme()" checked /><label
-                    for="mode">Toggle</label>
+                <input type="checkbox" class="toggle_mode" id="mode" onchange="toggleTheme()" checked /><label for="mode">Toggle</label>
             </div>
 
         </div>
@@ -173,14 +173,14 @@
                 search_tearm.children[1].innerText = `"${searchTerm}"`
                 if (termIncluded.length === 0) {
                     search_tearm.children[1].innerText = `"${searchTerm}" not found`
-                } else {
+                }else{
                     getCard(termIncluded)
                 }
-
+               
             }
 
         });
-        function closeMenu() {
+        function closeMenu(){
             mobile_nav.style.right = "-90%"
         }
         function openSideNav() {
@@ -205,11 +205,11 @@
         }
         function toggleTheme() {
             if (mode.checked) {
-                mobile_mode.innerText = `Light Mode`
+                mobile_mode.innerText =`Light Mode`
                 localStorage.setItem('theme', '')
                 document.documentElement.setAttribute('data-theme', '')
             } else {
-                mobile_mode.innerText = `Dark mode`
+                mobile_mode.innerText =`Dark mode`
                 document.documentElement.setAttribute('data-theme', 'dark')
                 localStorage.setItem('theme', 'dark')
             }
@@ -232,7 +232,6 @@
                     id: newId,
                     heroName,
                     realName,
-                    created: getCardDate(),
                     img,
                     description,
                     isFavorite: false
@@ -244,17 +243,9 @@
                 saveToLocalStorage();
                 main_form_btn.innerHTML = "Note has added ✅";
                 setTimeout(closeMainForm, 2000)
-                console.log(superHeroes);
             }
         })
-        function getCardDate() {
-            let date = new Date
-            const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
-            const newDate = date.toLocaleDateString('en-GB', options);
 
-            return newDate
-        }
-        getCardDate()
         function openCardModel(elm) {
             var modelImg = document.getElementById("modelImg")
             var modelTitle = document.getElementById("modelTitle")
@@ -333,7 +324,7 @@
 
             const filteredList = superHeroes.filter(elm => elm.isFavorite)
             myFavorite.style.display = 'none'
-            if(filteredList.length > 0){
+            if(filteredList && filteredList.length > 0){
                 myFavorite.style.display = 'block'
             }
             filteredList.forEach((elm) => {
@@ -370,6 +361,7 @@
             }
         }
         function deleteCard() {
+
             const heroIndex = superHeroes.findIndex((hero) => hero.id === tempId);
             const draftItem = superHeroes.find((elm) => elm.id === tempId)
             draft.push(draftItem)
@@ -384,7 +376,10 @@
         function hideModel() {
             model.style.display = "none";
         }
+
+
         function closeModel() {
+
             cardModel.style.display = 'none'
         }
     </script>
