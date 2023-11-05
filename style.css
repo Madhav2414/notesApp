@@ -429,6 +429,49 @@ label {
     position: relative;
 }
 
+.loader{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--primary_color);
+}
+.circle{
+    position: relative;
+    height: 70px;
+    width: 70px;
+    border-radius: 60%;
+    border: 5px solid var(--colour);
+    border-top-color: var(--button_primary);
+    animation: blink 0.8s linear infinite;
+}
+
+
+@keyframes blink {
+    from{
+      transform: rotateZ(0deg); 
+    } 
+    to{
+        transform: rotateZ(360deg); 
+    }
+}
+.circle_small{
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    background-color: var(--colour);
+    left: 8px;
+    border-radius: 50%;
+    top: 10px;
+    transform-origin: center;
+}
+
+
+
 label:after {
     content: "";
     position: absolute;
