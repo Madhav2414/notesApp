@@ -145,7 +145,11 @@
         document.addEventListener('DOMContentLoaded', function () {
 
             const storedHeroes = JSON.parse(localStorage.getItem('superHeroes'));
-
+            const draftedItem = JSON.parse (localStorage.getItem("draft"))
+            if (draftedItem) {
+            draft = draftedItem
+                
+            }
             if (storedHeroes) {
                 setTimeout(() => {
                     superHeroes = storedHeroes.reverse();
@@ -163,6 +167,7 @@
 
         function saveToLocalStorage() {
             localStorage.setItem('superHeroes', JSON.stringify(superHeroes));
+            localStorage.setItem("draft" , JSON.stringify(draft));
         }
         var loader = document.querySelector(".loader");
         // var search_form = document.getElementById('search_form');
@@ -180,6 +185,7 @@
         var mobile_mode = document.getElementById("mobile_mode")
         var myFavorite = document.getElementById("myFavorite")
         var draft = [];
+        
 
         search_form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -381,6 +387,7 @@
 
             const heroIndex = superHeroes.findIndex((hero) => hero.id === tempId);
             const draftItem = superHeroes.find((elm) => elm.id === tempId)
+           
             draft.push(draftItem)
             if (heroIndex !== -1) {
                 superHeroes.splice(heroIndex, 1);
@@ -388,15 +395,17 @@
                 getFavorite();
                 saveToLocalStorage();
                 hideModel()
+               
             }
         }
+       
         function hideModel() {
             model.style.display = "none";
         }
-
+        console.log(superHeroes);
 
         function closeModel() {
-
+   
             cardModel.style.display = 'none'
         }
     </script>
