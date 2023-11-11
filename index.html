@@ -83,9 +83,7 @@
                 </div>
                 <div class="model_body">
                     <div class="model_image">
-                        <img id="modelImg"
-                            src="https://rukminim2.flixcart.com/image/850/1000/k30h8y80/poster/f/z/w/medium-shaktiman-tv-show-poster-shaktiman-original-imafm8ru6qkz8x5z.jpeg?q=20"
-                            alt="">
+                        <img id="modelImg">
                     </div>
                     <div class="model_info">
                         <h3 id="modelName">hero</h3>
@@ -161,6 +159,11 @@
                     }
                 }, 2000)
 
+            }else{
+                loading =false;
+                if (!loading) {
+                        loader.style.display = "none";
+                    }
             }
 
         });
@@ -275,7 +278,12 @@
             var modelDesc = document.getElementById("modelDesc")
             var modelSubTitle = document.getElementById("modelSubTitle")
             var modelName = document.getElementById("modelName")
-            modelImg.setAttribute('src', elm.img);
+            
+            if (elm.img !== '') {
+                modelImg.setAttribute('src', elm.img);
+            }else{
+                modelImg.parentElement.style.display='none';
+            }
             modelTitle.innerText = `${elm.heroName} information`;
             modelDesc.innerText = elm.description;
             modelSubTitle.innerText = elm.realName;
@@ -311,7 +319,7 @@
                     </div>
                 </div>`
                         :
-                        `<div class="info">
+                        `<div class="info" style="padding-top:50px">
                     <button class="favorite-btn" onclick="toggleFavorite(${elm.id})">${elm.isFavorite ? '🧡' : '🤍'}</button>
                     <button class="delete-btn" onclick="deleteById(${elm.id})">❌</button>
                     <div class="title">
