@@ -94,6 +94,7 @@
                                 commodi magnam laudantium, fugit molestias optio totam, harum odio similique repudiandae
                                 maxime dolorem ipsam hic animi sint nam dolores.</p>
                         </div>
+                        <span id ="cretedDate" class="cretedDate">Date</span>
                     </div>
 
                 </div>
@@ -135,6 +136,15 @@
             <div class="card_container" id="favorite_list">
             </div>
         </div>
+        <div class="list" id="deletedList">
+            <div class="del">
+                <h3>Deleted Items</h3>
+            <button class="bg_danger delete_btn btn" onclick="deleteAll()">Delete all</button>
+            </div>
+            <div class="card_container" id="deleted_item">
+            </div>
+        </div>
+        
 
     </main>
     <script>
@@ -143,11 +153,13 @@
         document.addEventListener('DOMContentLoaded', function () {
 
             const storedHeroes = JSON.parse(localStorage.getItem('superHeroes'));
-            const draftedItem = JSON.parse (localStorage.getItem("draft"))
+            const draftedItem = JSON.parse(localStorage.getItem("draft"))
             if (draftedItem) {
-            draft = draftedItem
-                
+                draft = draftedItem
+            
             }
+            getDeleted();
+
             if (storedHeroes) {
                 setTimeout(() => {
                     superHeroes = storedHeroes.reverse();
@@ -159,18 +171,19 @@
                     }
                 }, 2000)
 
-            }else{
-                loading =false;
+            } else {
+                loading = false;
                 if (!loading) {
-                        loader.style.display = "none";
-                    }
+                    loader.style.display = "none";
+                }
             }
 
         });
 
         function saveToLocalStorage() {
             localStorage.setItem('superHeroes', JSON.stringify(superHeroes));
-            localStorage.setItem("draft" , JSON.stringify(draft));
+            localStorage.setItem("draft", JSON.stringify(draft));
+
         }
         var loader = document.querySelector(".loader");
         // var search_form = document.getElementById('search_form');
@@ -187,8 +200,10 @@
         var mobile_nav = document.getElementById("mobile_nav")
         var mobile_mode = document.getElementById("mobile_mode")
         var myFavorite = document.getElementById("myFavorite")
+        var deletedList=document.getElementById("deletedList")
+        var deleted_item =document.getElementById("deleted_item")
         var draft = [];
-        
+
 
         search_form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -249,16 +264,18 @@
             var description = document.getElementById('des').value
 
 
-            var newId = new Date().getTime()
+            var newId = new Date()
             if (heroName === '' || realName === '' || description === '') {
                 error_msg.innerText = "All fields are required"
             }
             else {
                 superHeroes.push({
-                    id: newId,
+                    id: newId.getTime(),
                     heroName,
                     realName,
                     img,
+                    createdAt:createdAt(),
+                    deletedAt :null,
                     description,
                     isFavorite: false
                 })
@@ -267,27 +284,39 @@
                 getCard(superHeroes);
                 getFavorite();
                 saveToLocalStorage();
+                getDeleted()
                 main_form_btn.innerHTML = "Note has added ✅";
                 setTimeout(closeMainForm, 2000)
             }
         })
-
+        function createdAt() {
+            let options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            }
+            let getDate = new Date()
+            let formattedDate = getDate.toLocaleString('en-IN', options);
+            return formattedDate;
+        }
         function openCardModel(elm) {
             var modelImg = document.getElementById("modelImg")
             var modelTitle = document.getElementById("modelTitle")
             var modelDesc = document.getElementById("modelDesc")
             var modelSubTitle = document.getElementById("modelSubTitle")
             var modelName = document.getElementById("modelName")
-            
+            var cretedDate=document.getElementById("cretedDate")
+
             if (elm.img !== '') {
                 modelImg.setAttribute('src', elm.img);
-            }else{
-                modelImg.parentElement.style.display='none';
+            } else {
+                modelImg.parentElement.style.display = 'none';
             }
             modelTitle.innerText = `${elm.heroName} information`;
             modelDesc.innerText = elm.description;
             modelSubTitle.innerText = elm.realName;
             modelName.innerText = elm.heroName;
+            cretedDate.innerText=`created at : ${elm.createdAt}`;
             cardModel.style.display = 'grid';
             console.log('element', elm);
         }
@@ -335,6 +364,7 @@
                     }          
         `;
                 wrapper.appendChild(newCard)
+                console.log(superHeroes);
             })
         }
         function toggleFavorite(heroId) {
@@ -381,6 +411,41 @@
                 favorite.appendChild(newCard)
             })
         }
+        function getDeleted() {
+            deleted_item.innerHTML = '';
+            deletedList.style.display = "none"
+            if (draft.length >0) {
+                deletedList.style.display ="block"
+            }
+            draft.forEach((elm) => {
+                var newCard = document.createElement('div');
+                newCard.className = 'card';
+                newCard.style.opacity = 0.6 
+
+                newCard.innerHTML =             `    ${elm.img ?
+                        `<div class="image_section">
+                    <img src="${elm.img}" alt="${elm.heroName}">
+            
+                </div>
+                <div class="info">
+                    <div class="title">
+                        <h3>${elm.heroName}</h3>
+                    </div>
+                  
+                </div>`
+                        :
+                        `<div class="info" style="padding-top:50px">
+
+                    <div class="title">
+                        <h3>${elm.heroName}</h3>
+                    </div>
+                   
+                </div>`
+                    }        
+        `;
+                deleted_item.appendChild(newCard)
+            })
+        }
 
         let tempId = null;
 
@@ -391,30 +456,42 @@
                 model.style.display = "grid";
             }
         }
+        function deleteAt() {
+            return new Date
+
+        }
         function deleteCard() {
 
             const heroIndex = superHeroes.findIndex((hero) => hero.id === tempId);
             const draftItem = superHeroes.find((elm) => elm.id === tempId)
-           
-            draft.push(draftItem)
+            let xyz = {...draftItem,deletedAt:deleteAt()}
+
+            draft.push(xyz)
+            console.log(draft);
             if (heroIndex !== -1) {
                 superHeroes.splice(heroIndex, 1);
                 getCard(superHeroes);
                 getFavorite();
                 saveToLocalStorage();
                 hideModel()
-               
+                getDeleted()
             }
         }
-       
+
         function hideModel() {
             model.style.display = "none";
         }
-        console.log(superHeroes);
+
 
         function closeModel() {
-   
+
             cardModel.style.display = 'none'
+        }
+        function deleteAll() {
+            draft.splice(0,draft.length)
+            localStorage.removeItem('draft')
+            getDeleted()
+            
         }
     </script>
 </body>

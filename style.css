@@ -45,6 +45,12 @@ main {
 #error_msg {
     color: rgb(233, 52, 52);
 }
+.delete_btn{
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white !important;
+
+}
 
 .search_tearm span {
     color: var(--colour);
@@ -52,7 +58,13 @@ main {
 
     font-style: italic;
 }
-
+.del{
+    display: flex;
+    justify-content: space-between;
+}
+.model_des{
+    flex: 1;
+}
 .add_card_btn {
     border: 2px solid rgb(6, 196, 139);
     border-radius: 5px;
