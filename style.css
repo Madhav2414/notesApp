@@ -526,6 +526,10 @@ label:active:after {
         width: 95%;
         padding: 25px;
     }
+    .del{
+        flex-direction: column !important; 
+        gap: 10px;
+    }
 
     input,
     select,
