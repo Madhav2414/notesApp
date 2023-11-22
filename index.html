@@ -23,9 +23,7 @@
                             for="mode">Toggle</label>
                     </div>
                 </li>
-                <li>
-                    <span class="delete_items" onclick="deletedItems()">Delete Items</span>
-                </li>
+             
                 <li></li>
                 <li></li>
             </ul>
@@ -156,7 +154,6 @@
             const draftedItem = JSON.parse(localStorage.getItem("draft"))
             if (draftedItem) {
                 draft = draftedItem
-            
             }
             getDeleted();
 
@@ -425,7 +422,7 @@
                 newCard.innerHTML =             `    ${elm.img ?
                         `<div class="image_section">
                     <img src="${elm.img}" alt="${elm.heroName}">
-            
+                    <button class="delete-btn " onclick="deleteInDraft(${elm.id})">❌</button>
                 </div>
                 <div class="info">
                     <div class="title">
@@ -456,10 +453,20 @@
                 model.style.display = "grid";
             }
         }
+        function deleteInDraft(id){
+            event.stopPropagation()
+            if (draft && draft.length>0) {
+                const heroIndex = draft.findIndex((hero) => hero.id === id);
+                draft.splice(heroIndex, 1);
+            }
+                getDeleted()
+          
+        }
         function deleteAt() {
             return new Date
 
         }
+        
         function deleteCard() {
 
             const heroIndex = superHeroes.findIndex((hero) => hero.id === tempId);
